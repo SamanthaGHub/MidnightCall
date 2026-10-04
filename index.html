@@ -1,444 +1,63 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>午夜来电</title>
-
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>午夜来电：404</title>
 <style>
-*{box-sizing:border-box}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#050505;color:#ddd;font-family:"Microsoft YaHei",sans-serif}body{display:grid;place-items:center;overflow:hidden}
+#game{width:min(920px,95vw);height:min(720px,94vh);position:relative;overflow:hidden;background:radial-gradient(circle at 50% 35%,#1b1616,#030303 72%);border:1px solid #333;box-shadow:0 0 70px #000}
+.page{display:none;position:absolute;inset:0;padding:28px}.page.on{display:flex;flex-direction:column}.center{justify-content:center;align-items:center;text-align:center}
+h1{font-size:clamp(38px,7vw,68px);letter-spacing:12px;margin:8px;text-shadow:0 0 20px #888}h2{letter-spacing:5px;color:#ccc}.small{font-size:12px;letter-spacing:3px;color:#666}.red{color:#a52a2a}.dim{color:#888}
+.story{max-width:700px;line-height:2;min-height:115px}.top{display:flex;justify-content:space-between;border-bottom:1px solid #282828;padding-bottom:10px}.main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.room{width:min(760px,95%);height:330px;position:relative;background:linear-gradient(#151515,#080808);border:1px solid #303030;border-radius:8px}.obj{position:absolute;font-size:42px;cursor:pointer;user-select:none;transition:.2s}.obj:hover{transform:scale(1.15);filter:drop-shadow(0 0 10px #aaa)}
+.phone{left:44%;bottom:18%}.tv{right:12%;top:18%}.door{left:8%;bottom:10%}.window{right:7%;bottom:10%}.photo{left:20%;top:18%}.mirror{left:43%;top:8%}
+button{font:inherit;color:#ddd;background:#101010;border:1px solid #555;border-radius:4px;padding:11px 22px;margin:5px;cursor:pointer}button:hover{background:#310909;border-color:#9b3333;color:#fff}.actions{display:flex;flex-wrap:wrap;justify-content:center}.log{text-align:center;line-height:1.9;color:#aaa;min-height:65px}
+.inv{font-size:12px;color:#999}.tag{border:1px solid #3d3d3d;padding:3px 6px;margin-left:3px}
+#static{position:absolute;inset:0;pointer-events:none;z-index:50;opacity:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.025) 4px)}#static.on{animation:static .45s}@keyframes static{0%,100%{opacity:0}40%{opacity:.8}}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:60}#flash.on{animation:flash .45s}@keyframes flash{15%{opacity:.7}100%{opacity:0}}
+#toast{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:#0b0b0b;border:1px solid #444;padding:8px 14px;z-index:80;opacity:0;transition:.2s}#toast.on{opacity:1}
+#endTitle{font-size:38px;letter-spacing:5px}.ending{max-width:650px;line-height:2}
+</style></head><body><div id="game"><div id="static"></div><div id="flash"></div><div id="toast"></div>
 
-body{
-  margin:0;
-  min-height:100vh;
-  background:#050505;
-  color:#ddd;
-  font-family:"Microsoft YaHei",sans-serif;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-}
+<section id="title" class="page on center"><div class="small">恐怖互动剧情 · 多路线 · 多结局</div><h1>午夜来电</h1><p class="dim">有人在凌晨 00:00 打给你。<br>最奇怪的是——来电号码是你的号码。</p><button onclick="begin()">开始游戏</button></section>
 
-#game{
-  width:min(700px,94vw);
-  min-height:600px;
-  padding:35px 25px;
-  background:
-    radial-gradient(circle at center,#171717,#030303 75%);
-  border:1px solid #333;
-  box-shadow:0 0 60px #000;
-  text-align:center;
-  position:relative;
-}
+<section id="intro" class="page center"><div class="story"><h2>第一章：00:00</h2><p>房间里很安静。手机放在桌上。</p><p>时间跳到 <span class="red">00:00</span>。</p><p>铃声响起。</p></div><button onclick="answer()">接听</button><button onclick="hangup()">挂断</button><button onclick="mute()">静音</button></section>
 
-h1{
-  font-size:42px;
-  letter-spacing:10px;
-  color:#eee;
-  text-shadow:0 0 15px #777;
-}
+<section id="house" class="page"><div class="top"><span>第一章 · 房间</span><span id="inv" class="inv">道具：无</span></div><div class="main"><h2>你的房间</h2><div class="room"><div class="obj phone" onclick="inspect('phone')">📞</div><div class="obj tv" onclick="inspect('tv')">📺</div><div class="obj door" onclick="inspect('door')">🚪</div><div class="obj window" onclick="inspect('window')">🪟</div><div class="obj photo" onclick="inspect('photo')">🖼️</div><div class="obj mirror" onclick="inspect('mirror')">🪞</div></div><div id="log" class="log">你可以调查房间里的物品。某些线索只会在特定时间出现。</div><div id="actions" class="actions"></div></div></section>
 
-.sub{
-  color:#777;
-  letter-spacing:3px;
-}
+<section id="call" class="page center"><div class="main"><div class="small">未知来电</div><div style="font-size:70px">☎</div><h2 id="callTitle">电话那头没有人说话</h2><div id="callText" class="story">你只能听见呼吸声。</div><div id="callActions" class="actions"></div></div></section>
 
-#time{
-  font-size:55px;
-  margin:35px 0;
-  color:#bcbcbc;
-  text-shadow:0 0 15px #fff;
-}
+<section id="corridor" class="page"><div class="top"><span>第二章 · 404走廊</span><span id="inv2" class="inv"></span></div><div class="main"><h2>旧公寓</h2><div class="room"><div class="obj door" onclick="inspect('401')">🚪</div><div class="obj photo" onclick="inspect('403')">🚪</div><div class="obj mirror" onclick="inspect('404')">🚪</div><div class="obj window" onclick="inspect('hall')">🪟</div></div><div id="corridorLog" class="log">走廊的灯每隔几秒闪一次。404号房门没有门牌。</div><div class="actions"><button onclick="toHouse()">回房间</button></div></div></section>
 
-#phone{
-  margin:auto;
-  width:220px;
-  height:300px;
-  background:#111;
-  border:4px solid #292929;
-  border-radius:28px;
-  box-shadow:0 0 30px #000;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-}
+<section id="monitor" class="page center"><div class="main"><div class="small">第三章 · 监控录像</div><h2>CAM 01 / 02 / 03</h2><div class="story">请选择监控。找出发生异常的画面。</div><div class="actions"><button onclick="cam(1)">CAM 01</button><button onclick="cam(2)">CAM 02</button><button onclick="cam(3)">CAM 03</button></div><div id="camResult" class="story"></div></div></section>
 
-.phoneIcon{
-  font-size:65px;
-  animation:ring .7s infinite;
-}
+<section id="mirrorPage" class="page center"><div class="main"><div class="small">第四章 · 镜中人</div><div style="font-size:100px">🪞</div><div id="mirrorText" class="story">镜子里的你慢了一秒。</div><div class="actions"><button onclick="mirrorAct('look')">继续观察</button><button onclick="mirrorAct('touch')">触碰镜面</button><button onclick="mirrorAct('break')">打碎镜子</button></div></div></section>
 
-@keyframes ring{
-  0%{transform:rotate(0)}
-  25%{transform:rotate(-12deg)}
-  50%{transform:rotate(12deg)}
-  75%{transform:rotate(-8deg)}
-  100%{transform:rotate(0)}
-}
-
-#caller{
-  margin-top:20px;
-  color:#aaa;
-  font-size:14px;
-}
-
-button{
-  margin:8px;
-  padding:13px 28px;
-  background:#111;
-  color:#ddd;
-  border:1px solid #555;
-  border-radius:5px;
-  cursor:pointer;
-  font-size:15px;
-}
-
-button:hover{
-  background:#300909;
-  border-color:#a33;
-  color:#fff;
-}
-
-#story{
-  min-height:100px;
-  margin:25px auto;
-  max-width:520px;
-  line-height:2;
-  color:#aaa;
-}
-
-.red{
-  color:#b22;
-}
-
-.hidden{
-  display:none;
-}
-
-.shake{
-  animation:shake .15s 5;
-}
-
-@keyframes shake{
-  25%{transform:translateX(-8px)}
-  75%{transform:translateX(8px)}
-}
-
-#blood{
-  position:fixed;
-  top:-20px;
-  font-size:15px;
-  pointer-events:none;
-  z-index:999;
-  animation:fall 4s linear forwards;
-}
-
-@keyframes fall{
-  to{
-    transform:translateY(110vh);
-    opacity:0;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div id="game">
-
-  <div class="sub">午夜 00:00</div>
-
-  <h1>午夜来电</h1>
-
-  <div id="time">00:00</div>
-
-  <div id="phone">
-    <div class="phoneIcon">📞</div>
-    <div id="caller">未知来电</div>
-  </div>
-
-  <div id="story">
-    房间里很安静。<br>
-    只有墙上的时钟正在走动。
-  </div>
-
-  <div id="buttons">
-    <button onclick="startGame()">等待午夜</button>
-  </div>
-
+<section id="final" class="page center"><div class="main"><div class="small">最终章</div><h2 id="endTitle"></h2><div id="endText" class="ending"></div><div id="endExtra" class="ending"></div><p id="endingCount" class="dim"></p><button onclick="location.reload()">重新开始</button></div></section>
 </div>
 
 <script>
-
-let step=0;
-let ringing=false;
-
-const story=document.getElementById("story");
-const buttons=document.getElementById("buttons");
-const phone=document.getElementById("phone");
-const time=document.getElementById("time");
-
-function startGame(){
-
-  step=1;
-
-  buttons.innerHTML=
-  '<button onclick="answer()">接听电话</button>'+
-  '<button onclick="hangup()">挂断</button>'+
-  '<button onclick="silent()">静音</button>';
-
-  story.innerHTML=
-  '墙上的时钟突然停了。<br>'+
-  '<span class="red">00:00</span><br>'+
-  '电话响了。';
-
-  ring();
-
+const G={items:new Set(),flags:new Set(),endings:new Set(JSON.parse(localStorage.getItem('midnightEndings')||'[]'))};
+const $=id=>document.getElementById(id);
+function page(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));$(id).classList.add('on')}
+function begin(){page('intro')}
+function inv(){let x=G.items.size?[...G.items].map(i=>'<span class="tag">'+i+'</span>').join(''):'无';$('inv').innerHTML='道具：'+x;if($('inv2'))$('inv2').innerHTML='道具：'+x}
+function glitch(){let s=$('static');s.classList.remove('on');void s.offsetWidth;s.classList.add('on')}
+function flash(){let f=$('flash');f.classList.remove('on');void f.offsetWidth;f.classList.add('on')}
+function log(t,acts=[]){$('log').innerHTML=t;$('actions').innerHTML='';acts.forEach(a=>{let b=document.createElement('button');b.textContent=a[0];b.onclick=a[1];$('actions').appendChild(b)})}
+function answer(){page('call');call1()}
+function hangup(){G.flags.add('hungup');page('house');log('你挂断了电话。<br><span class="red">三秒后，房门外响起了同样的铃声。</span>')}
+function mute(){G.flags.add('muted');page('house');log('你把手机调成静音。<br>屏幕自己亮了：<span class="red">“别出声。”</span>')}
+function call1(){$('callText').innerHTML='只有很轻的呼吸声。<br>对方终于说：<br><b>“你在家吗？”</b>';$('callActions').innerHTML='<button onclick="callAnswer(1)">回答“在”</button><button onclick="callAnswer(2)">问她是谁</button><button onclick="callAnswer(3)">保持沉默</button>'}
+function callAnswer(n){G.flags.add('call'+n);$('callText').innerHTML=n===1?'对方笑了。<br>“那你应该知道，我为什么在你门外。”':n===2?'“我是你七年前没接到的那通电话。”':'电话那头沉默。<br>随后传来三下敲门声：<span class="red">咚、咚、咚。</span>';$('callActions').innerHTML='<button onclick="afterCall()">挂断并调查房间</button>'}
+function afterCall(){page('house');log('电话挂断了。房间里多了一张你从没见过的照片。',[['调查照片',()=>inspect('photo')],['调查电视',()=>inspect('tv')],['调查镜子',()=>inspect('mirror')]])}
+function inspect(x){
+if(x==='phone'){G.items.add('手机');inv();log('屏幕显示一个未知号码。再次看时，号码变成了：<span class="red">你的号码。</span>');return}
+if(x==='photo'){G.items.add('旧照片');inv();log('照片上有三个人。你的脸被黑色墨水涂掉了。背面写着：<span class="red">404</span>。',[['前往404',()=>{page('corridor')}]]);return}
+if(x==='tv'){G.items.add('录像带');inv();log('电视自动亮起。画面里是你的房间，但时间是七年前。',[['观看录像',()=>page('monitor')]]);return}
+if(x==='mirror'){log('你看向镜子。镜中的你没有同步眨眼。',[['继续看',()=>page('mirrorPage')]]) ;return}
+if(x==='door'){log('门外没人。猫眼里却能看见一个人站在走廊尽头。');return}
+if(['401','403','404','hall'].includes(x)){let t={401:'401号房打不开。门缝里塞着一张纸：不要去404。',403:'403号房传来电视声。可整栋楼已经断电。',404:'404号房门自己开了。里面只有一台正在播放你刚才电话内容的电视。',hall:'走廊尽头有一道影子。它在你眨眼时消失。'}[x];$('corridorLog').innerHTML=t;if(x==='404'){G.items.add('钥匙');inv();setTimeout(()=>page('monitor'),700)}}
 }
-
-function ring(){
-
-  ringing=true;
-
-  phone.classList.add("shake");
-
-  setTimeout(()=>{
-    phone.classList.remove("shake");
-  },800);
-
-}
-
-function answer(){
-
-  step=2;
-
-  story.innerHTML=
-  '你接起电话。<br><br>'+
-  '电话那头没有声音。<br>'+
-  '只有一个女人在呼吸。';
-
-  buttons.innerHTML=
-  '<button onclick="speak()">说话</button>'+
-  '<button onclick="listen()">继续听</button>';
-
-}
-
-function speak(){
-
-  story.innerHTML=
-  '<span class="red">你：</span>“喂？”<br><br>'+
-  '电话那头沉默了几秒。<br>'+
-  '然后，一个声音问：<br><br>'+
-  '<b>“你为什么还没有睡？”</b>';
-
-  buttons.innerHTML=
-  '<button onclick="truth()">回答“我睡不着”</button>'+
-  '<button onclick="ask()">问她是谁</button>';
-
-}
-
-function listen(){
-
-  story.innerHTML=
-  '你没有说话。<br><br>'+
-  '电话那头突然传来脚步声。<br>'+
-  '一步。<br>'+
-  '两步。<br>'+
-  '三步。';
-
-  buttons.innerHTML=
-  '<button onclick="listen2()">继续听</button>';
-
-}
-
-function listen2(){
-
-  story.innerHTML=
-  '<span class="red">脚步声停在了你的房门外。</span><br><br>'+
-  '可是……<br>'+
-  '电话里的声音还在继续呼吸。';
-
-  buttons.innerHTML=
-  '<button onclick="badEnd()">查看门外</button>'+
-  '<button onclick="stay()">留在原地</button>';
-
-}
-
-function ask(){
-
-  story.innerHTML=
-  '你问：“你是谁？”<br><br>'+
-  '电话那头传来一阵笑声。<br>'+
-  '然后她说：<br><br>'+
-  '<b>“你真的不记得我了吗？”</b>';
-
-  buttons.innerHTML=
-  '<button onclick="lookPhone()">看手机</button>';
-
-}
-
-function lookPhone(){
-
-  phone.classList.add("shake");
-
-  story.innerHTML=
-  '<span class="red">你的手机屏幕突然亮了。</span><br><br>'+
-  '来电号码不是陌生号码。<br>'+
-  '而是——<br><br>'+
-  '<b>你的电话号码。</b>';
-
-  buttons.innerHTML=
-  '<button onclick="trueEnd()">继续接听</button>';
-
-}
-
-function truth(){
-
-  story.innerHTML=
-  '电话那头突然安静下来。<br><br>'+
-  '随后，她轻声说道：<br><br>'+
-  '<b>“可是……我就在你身后。”</b>';
-
-  setTimeout(()=>{
-    trueEnd();
-  },2500);
-
-}
-
-function silent(){
-
-  story.innerHTML=
-  '你按下静音。<br><br>'+
-  '电话没有挂断。<br>'+
-  '屏幕上却出现了一行字：<br><br>'+
-  '<span class="red">“别出声。”</span>';
-
-  buttons.innerHTML=
-  '<button onclick="silent2()">为什么？</button>';
-
-}
-
-function silent2(){
-
-  story.innerHTML=
-  '你刚准备输入文字。<br><br>'+
-  '手机自动发送了一条消息：<br><br>'+
-  '<b>“我知道你在房间里。”</b>';
-
-  buttons.innerHTML=
-  '<button onclick="badEnd()">关掉手机</button>';
-
-}
-
-function hangup(){
-
-  story.innerHTML=
-  '你挂断了电话。<br><br>'+
-  '房间恢复了安静。';
-
-  buttons.innerHTML=
-  '<button onclick="turn()">回头看看</button>';
-
-}
-
-function turn(){
-
-  story.innerHTML=
-  '<span class="red">你身后的手机响了。</span><br><br>'+
-  '可是……<br>'+
-  '你的手机明明就在手里。';
-
-  phone.classList.add("shake");
-
-  buttons.innerHTML=
-  '<button onclick="badEnd()">回头</button>'+
-  '<button onclick="stay()">不回头</button>';
-
-}
-
-function stay(){
-
-  story.innerHTML=
-  '你没有回头。<br><br>'+
-  '几秒后，手机停止了响铃。<br>'+
-  '天亮了。';
-
-  buttons.innerHTML=
-  '<button onclick="location.reload()">重新开始</button>';
-
-}
-
-function badEnd(){
-
-  document.body.classList.add("shake");
-
-  story.innerHTML=
-  '<span class="red"><b>坏结局</b></span><br><br>'+
-  '你打开了门。<br><br>'+
-  '门外没有任何人。<br>'+
-  '只有一部正在响铃的旧手机。<br><br>'+
-  '屏幕上显示：<br>'+
-  '<b>正在拨打你的号码……</b>';
-
-  buttons.innerHTML=
-  '<button onclick="location.reload()">重新开始</button>';
-
-  blood();
-
-}
-
-function trueEnd(){
-
-  story.innerHTML=
-  '<span class="red"><b>真相结局</b></span><br><br>'+
-  '你终于想起来了。<br><br>'+
-  '七年前的那场事故里，<br>'+
-  '真正接到午夜电话的人……<br>'+
-  '一直都是你。';
-
-  buttons.innerHTML=
-  '<button onclick="location.reload()">重新开始</button>';
-
-  blood();
-
-}
-
-function ring(){
-
-  if(navigator.vibrate){
-    navigator.vibrate([300,100,300]);
-  }
-
-}
-
-function blood(){
-
-  for(let i=0;i<12;i++){
-
-    setTimeout(()=>{
-
-      let b=document.createElement("div");
-
-      b.id="blood";
-      b.innerHTML="🩸";
-
-      b.style.left=Math.random()*100+"vw";
-
-      b.style.fontSize=(8+Math.random()*10)+"px";
-
-      document.body.appendChild(b);
-
-      setTimeout(()=>b.remove(),4000);
-
-    },i*150);
-
-  }
-
-}
-
-</script>
-
-</body>
-</html>
+function toHouse(){page('house')}
+function cam(n){glitch();$('camResult').innerHTML=n===1?'CAM 01：空走廊。没有异常。':n===2?'CAM 02：一个人站在镜头前。它没有脸。':'CAM 03：你看见自己正在看监控。';if(n===3){G.flags.add('camTruth');G.items.add('录像线索');inv()}}
+function mirrorAct(a){glitch();if(a==='look')$('mirrorText').innerHTML='镜中的你举起手。<br>你没有。<br><span class="red">它在对你微笑。</span>';if(a==='touch'){$('mirrorText').innerHTML='你的手穿过镜面。另一边有人抓住了你的手腕。';G.flags.add('mirrorTouch')}if(a==='break'){flash();G.items.add('碎镜片');inv();$('mirrorText').innerHTML='镜子碎了。碎片里同时出现七个不同的你。'}document.querySelector('#mirrorPage .actions').innerHTML='<button onclick="truth()">寻找真相</button>'}
+function truth(){let special=G.flags.has('camTruth')&&G.flags.has('mirrorTouch')&&G.items.has('旧照片');let t,x,e;if(special){t='真结局 · 第八通电话';x='你发现七年前的事故不是意外。那通电话一直没有结束。';e='电话再次响起。屏幕显示：第 8 个来电。你接听后，听见的是七年前的自己。'}else if(G.flags.has('hungup')){t='结局 · 不接听的人';x='你逃出了房间。';e='但手机在第二天凌晨再次响起。'}else if(G.flags.has('muted')){t='结局 · 静音';x='你遵守了“别出声”。';e='直到你发现，房间里其实还有另一个呼吸声。'}else if(G.flags.has('mirrorTouch')){t='结局 · 镜后';x='你触碰了镜子。';e='镜子里的你终于走了出来。'}else{t='结局 · 未知号码';x='你知道得太少了。';e='故事还没有真正结束。'}finish(t,x,e)}
+function finish(t,x,e){G.endings.add(t);localStorage.setItem('midnightEndings',JSON.stringify([...G.endings]));$('endTitle').textContent=t;$('endText').textContent=x;$('endExtra').textContent=e;$('endingCount').textContent='已发现结局：'+G.endings.size+' / 8';page('final');flash()}
+</script></body></html>
