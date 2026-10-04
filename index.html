@@ -1,63 +1,186 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>午夜来电：404</title>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>午夜来电：404</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#050505;color:#ddd;font-family:"Microsoft YaHei",sans-serif}body{display:grid;place-items:center;overflow:hidden}
-#game{width:min(920px,95vw);height:min(720px,94vh);position:relative;overflow:hidden;background:radial-gradient(circle at 50% 35%,#1b1616,#030303 72%);border:1px solid #333;box-shadow:0 0 70px #000}
-.page{display:none;position:absolute;inset:0;padding:28px}.page.on{display:flex;flex-direction:column}.center{justify-content:center;align-items:center;text-align:center}
-h1{font-size:clamp(38px,7vw,68px);letter-spacing:12px;margin:8px;text-shadow:0 0 20px #888}h2{letter-spacing:5px;color:#ccc}.small{font-size:12px;letter-spacing:3px;color:#666}.red{color:#a52a2a}.dim{color:#888}
-.story{max-width:700px;line-height:2;min-height:115px}.top{display:flex;justify-content:space-between;border-bottom:1px solid #282828;padding-bottom:10px}.main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.room{width:min(760px,95%);height:330px;position:relative;background:linear-gradient(#151515,#080808);border:1px solid #303030;border-radius:8px}.obj{position:absolute;font-size:42px;cursor:pointer;user-select:none;transition:.2s}.obj:hover{transform:scale(1.15);filter:drop-shadow(0 0 10px #aaa)}
-.phone{left:44%;bottom:18%}.tv{right:12%;top:18%}.door{left:8%;bottom:10%}.window{right:7%;bottom:10%}.photo{left:20%;top:18%}.mirror{left:43%;top:8%}
-button{font:inherit;color:#ddd;background:#101010;border:1px solid #555;border-radius:4px;padding:11px 22px;margin:5px;cursor:pointer}button:hover{background:#310909;border-color:#9b3333;color:#fff}.actions{display:flex;flex-wrap:wrap;justify-content:center}.log{text-align:center;line-height:1.9;color:#aaa;min-height:65px}
-.inv{font-size:12px;color:#999}.tag{border:1px solid #3d3d3d;padding:3px 6px;margin-left:3px}
-#static{position:absolute;inset:0;pointer-events:none;z-index:50;opacity:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.025) 4px)}#static.on{animation:static .45s}@keyframes static{0%,100%{opacity:0}40%{opacity:.8}}
-#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:60}#flash.on{animation:flash .45s}@keyframes flash{15%{opacity:.7}100%{opacity:0}}
-#toast{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:#0b0b0b;border:1px solid #444;padding:8px 14px;z-index:80;opacity:0;transition:.2s}#toast.on{opacity:1}
-#endTitle{font-size:38px;letter-spacing:5px}.ending{max-width:650px;line-height:2}
-</style></head><body><div id="game"><div id="static"></div><div id="flash"></div><div id="toast"></div>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#050505;color:#ddd;font-family:"Microsoft YaHei",Arial,sans-serif}
+body{display:flex;align-items:center;justify-content:center;overflow:hidden}
+#game{position:relative;width:min(940px,94vw);height:min(720px,92vh);min-height:520px;overflow:hidden;background:#100e0e;border:1px solid #333;box-shadow:0 0 70px #000}
+.page{display:none;position:absolute;inset:0;padding:30px;z-index:2}
+.page.on{display:flex;flex-direction:column}
+.center{justify-content:center;align-items:center;text-align:center}
+h1{font-size:clamp(40px,7vw,70px);letter-spacing:12px;margin:10px;text-shadow:0 0 25px #aaa}
+h2{letter-spacing:5px}.small{font-size:12px;letter-spacing:3px;color:#777}.dim{color:#888}.red{color:#b52a2a}
+.story{max-width:700px;line-height:2;min-height:90px}.main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.top{display:flex;justify-content:space-between;border-bottom:1px solid #292929;padding-bottom:10px}
+.room{position:relative;width:min(760px,94%);height:330px;background:linear-gradient(#171717,#080808);border:1px solid #333}
+.obj{position:absolute;font-size:42px;cursor:pointer;user-select:none;transition:.2s}
+.obj:hover{transform:scale(1.12);filter:drop-shadow(0 0 12px #aaa)}
+.phone{left:44%;bottom:17%}.tv{right:12%;top:16%}.door{left:8%;bottom:10%}.window{right:7%;bottom:10%}.photo{left:20%;top:18%}.mirror{left:43%;top:8%}
+button{font:inherit;color:#ddd;background:#101010;border:1px solid #555;border-radius:4px;padding:10px 20px;margin:5px;cursor:pointer}
+button:hover{background:#300909;border-color:#a33;color:#fff}
+.actions{display:flex;flex-wrap:wrap;justify-content:center}.log{text-align:center;line-height:1.9;color:#aaa;min-height:65px}
+.inv{font-size:12px;color:#999}.tag{border:1px solid #444;padding:3px 6px;margin-left:3px}
+.backBtn{position:absolute;left:14px;bottom:12px;z-index:30}
 
-<section id="title" class="page on center"><div class="small">恐怖互动剧情 · 多路线 · 多结局</div><h1>午夜来电</h1><p class="dim">有人在凌晨 00:00 打给你。<br>最奇怪的是——来电号码是你的号码。</p><button onclick="begin()">开始游戏</button></section>
+#static{position:absolute;inset:0;z-index:80;pointer-events:none;opacity:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.05) 4px)}
+#static.on{animation:noise .35s}@keyframes noise{0%,100%{opacity:0}40%{opacity:.8}}
+#flash{position:absolute;inset:0;z-index:90;pointer-events:none;background:#fff;opacity:0}
+#flash.on{animation:flash .4s}@keyframes flash{15%{opacity:.7}100%{opacity:0}}
 
-<section id="intro" class="page center"><div class="story"><h2>第一章：00:00</h2><p>房间里很安静。手机放在桌上。</p><p>时间跳到 <span class="red">00:00</span>。</p><p>铃声响起。</p></div><button onclick="answer()">接听</button><button onclick="hangup()">挂断</button><button onclick="mute()">静音</button></section>
+#video{display:none;position:absolute;inset:0;z-index:70;background:#020202}
+#video.on{display:flex;flex-direction:column}
+.vhead{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#090909;border-bottom:1px solid #333;color:#777;font:12px monospace}
+.vscreen{position:relative;flex:1;overflow:hidden;background:#111}
+.scene{position:absolute;inset:0;background:linear-gradient(#242424 0 46%,#111 46% 100%)}
+.wall{position:absolute;inset:0 0 48%;background:linear-gradient(150deg,#262626,#0d0d0d)}
+.floor{position:absolute;left:-5%;right:-5%;bottom:-10%;height:60%;background:linear-gradient(165deg,#191919,#050505);transform:perspective(600px) rotateX(8deg)}
+.light{position:absolute;left:25%;top:3%;width:50%;height:45%;background:radial-gradient(ellipse,rgba(230,230,230,.16),transparent 68%);animation:bulb 3.4s infinite}
+@keyframes bulb{0%,85%,100%{opacity:.8}87%{opacity:.15}89%{opacity:.75}91%{opacity:.2}}
+.window{position:absolute;right:10%;top:13%;width:22%;height:35%;border:5px solid #181818;background:#020202;box-shadow:inset 0 0 30px #000}
+.window:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:3px;background:#222}.window:after{content:"";position:absolute;top:50%;left:0;right:0;height:3px;background:#222}
+.moon{position:absolute;right:17%;top:18%;width:34px;height:34px;border-radius:50%;background:#aaa;opacity:.3;box-shadow:0 0 28px #aaa}
+.table{position:absolute;left:20%;bottom:25%;width:45%;height:9%;background:#181818;border:2px solid #2a2a2a;transform:skewX(-8deg)}
+.table:before,.table:after{content:"";position:absolute;bottom:-80%;width:5%;height:80%;background:#111}.table:before{left:8%}.table:after{right:8%}
+.lamp{position:absolute;left:38%;bottom:34%;width:15%;height:22%;z-index:3}
+.lampshade{position:absolute;left:10%;top:0;width:80%;height:55%;background:#252525;clip-path:polygon(18% 0,82% 0,100% 100%,0 100%);border:2px solid #3b3b3b}
+.lampglow{position:absolute;inset:-120% -90%;background:radial-gradient(ellipse,rgba(220,220,220,.13),transparent 62%);animation:bulb 2.7s infinite}
+.oldphone{position:absolute;left:48%;bottom:34%;font-size:34px;z-index:5;animation:ring 4s infinite}
+@keyframes ring{0%,88%,100%{transform:rotate(0)}90%{transform:rotate(-8deg)}92%{transform:rotate(8deg)}94%{transform:rotate(0)}}
+.figure{position:absolute;right:12%;bottom:15%;width:90px;height:260px;opacity:0;z-index:6;filter:blur(2px)}
+.figure .head{position:absolute;left:10px;top:0;width:70px;height:70px;border-radius:50%;background:#000;box-shadow:0 0 25px #000}
+.figure .body{position:absolute;left:25px;top:62px;width:48px;height:180px;border-radius:45% 45% 12% 12%;background:#000;box-shadow:0 0 30px #000}
+.figure .eye{position:absolute;top:32px;width:6px;height:6px;background:#aaa;box-shadow:0 0 8px #aaa;opacity:0}.figure .e1{left:28px}.figure .e2{left:49px}
+.figure.show{animation:enter 8s forwards}.figure.show .eye{animation:eyes 2s 6s forwards}
+@keyframes enter{0%{opacity:0;transform:translateX(180px)}35%{opacity:.05}55%{opacity:.4;transform:translateX(60px)}80%{opacity:.85;transform:translateX(0)}100%{opacity:.95}}
+@keyframes eyes{0%,100%{opacity:0}50%,75%{opacity:1}}
+.scan{position:absolute;inset:0;z-index:12;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px)}
+.vignette{position:absolute;inset:0;z-index:13;pointer-events:none;background:radial-gradient(ellipse,transparent 45%,rgba(0,0,0,.7) 100%)}
+.vtime,.vrec{position:absolute;top:14px;z-index:15;font:14px monospace;color:#aaa;text-shadow:0 1px 4px #000}.vtime{left:15px}.vrec{right:15px}.blink{animation:blink 1s infinite}@keyframes blink{50%{opacity:.25}}
+.vtext{position:absolute;left:50%;bottom:18%;width:85%;transform:translateX(-50%);z-index:16;text-align:center;font-size:17px;letter-spacing:2px;text-shadow:0 2px 8px #000;opacity:0}
+.vtext.show{animation:subtitle 2.2s forwards}@keyframes subtitle{0%{opacity:0;transform:translate(-50%,10px)}15%,75%{opacity:1;transform:translate(-50%,0)}100%{opacity:0}}
+.progress{position:absolute;left:18px;right:18px;bottom:10px;height:3px;background:#222;z-index:17}.bar{height:100%;width:0;background:#aaa}
+.vcontrols{height:62px;padding:8px;text-align:center;border-top:1px solid #292929;background:#080808}
+</style>
+</head>
+<body>
+<div id="game">
+<div id="static"></div><div id="flash"></div>
 
-<section id="house" class="page"><div class="top"><span>第一章 · 房间</span><span id="inv" class="inv">道具：无</span></div><div class="main"><h2>你的房间</h2><div class="room"><div class="obj phone" onclick="inspect('phone')">📞</div><div class="obj tv" onclick="inspect('tv')">📺</div><div class="obj door" onclick="inspect('door')">🚪</div><div class="obj window" onclick="inspect('window')">🪟</div><div class="obj photo" onclick="inspect('photo')">🖼️</div><div class="obj mirror" onclick="inspect('mirror')">🪞</div></div><div id="log" class="log">你可以调查房间里的物品。某些线索只会在特定时间出现。</div><div id="actions" class="actions"></div></div></section>
+<section id="title" class="page on center">
+<div class="small">恐怖互动剧情 · 多路线 · 多结局</div>
+<h1>午夜来电</h1>
+<p class="dim">凌晨 00:00。<br>你的手机响了。<br>来电号码——是你自己。</p>
+<button onclick="startGame()">开始游戏</button>
+<button onclick="showGallery()">结局图鉴</button>
+</section>
 
-<section id="call" class="page center"><div class="main"><div class="small">未知来电</div><div style="font-size:70px">☎</div><h2 id="callTitle">电话那头没有人说话</h2><div id="callText" class="story">你只能听见呼吸声。</div><div id="callActions" class="actions"></div></div></section>
+<section id="intro" class="page center">
+<button class="backBtn" onclick="back()">← 返回</button>
+<div class="story"><h2>第一章：00:00</h2><p>房间里很安静。</p><p>手机屏幕亮起。</p><p class="red">铃声响了。</p></div>
+<button onclick="answer()">接听</button><button onclick="hangup()">挂断</button><button onclick="mute()">静音</button>
+</section>
 
-<section id="corridor" class="page"><div class="top"><span>第二章 · 404走廊</span><span id="inv2" class="inv"></span></div><div class="main"><h2>旧公寓</h2><div class="room"><div class="obj door" onclick="inspect('401')">🚪</div><div class="obj photo" onclick="inspect('403')">🚪</div><div class="obj mirror" onclick="inspect('404')">🚪</div><div class="obj window" onclick="inspect('hall')">🪟</div></div><div id="corridorLog" class="log">走廊的灯每隔几秒闪一次。404号房门没有门牌。</div><div class="actions"><button onclick="toHouse()">回房间</button></div></div></section>
+<section id="house" class="page">
+<button class="backBtn" onclick="back()">← 返回</button>
+<div class="top"><span>第一章 · 房间</span><span id="inv">道具：无</span></div>
+<div class="main"><h2>你的房间</h2>
+<div class="room">
+<div class="obj phone" onclick="inspect('phone')">📞</div><div class="obj tv" onclick="inspect('tv')">📺</div>
+<div class="obj door" onclick="inspect('door')">🚪</div><div class="obj window" onclick="inspect('window')">🪟</div>
+<div class="obj photo" onclick="inspect('photo')">🖼️</div><div class="obj mirror" onclick="inspect('mirror')">🪞</div>
+</div>
+<div id="log" class="log">调查房间里的物品。</div><div id="actions" class="actions"></div></div>
+</section>
 
-<section id="monitor" class="page center"><div class="main"><div class="small">第三章 · 监控录像</div><h2>CAM 01 / 02 / 03</h2><div class="story">请选择监控。找出发生异常的画面。</div><div class="actions"><button onclick="cam(1)">CAM 01</button><button onclick="cam(2)">CAM 02</button><button onclick="cam(3)">CAM 03</button></div><div id="camResult" class="story"></div></div></section>
+<section id="call" class="page center"><button class="backBtn" onclick="back()">← 返回</button><div class="main">
+<div class="small">未知来电</div><div style="font-size:70px">☎</div><h2>电话那头</h2><div id="callText" class="story"></div><div id="callActions" class="actions"></div>
+</div></section>
 
-<section id="mirrorPage" class="page center"><div class="main"><div class="small">第四章 · 镜中人</div><div style="font-size:100px">🪞</div><div id="mirrorText" class="story">镜子里的你慢了一秒。</div><div class="actions"><button onclick="mirrorAct('look')">继续观察</button><button onclick="mirrorAct('touch')">触碰镜面</button><button onclick="mirrorAct('break')">打碎镜子</button></div></div></section>
+<section id="corridor" class="page"><button class="backBtn" onclick="back()">← 返回</button><div class="top"><span>第二章 · 404走廊</span><span id="inv2">道具：无</span></div><div class="main">
+<h2>旧公寓</h2><div class="room">
+<div class="obj door" onclick="corridor('401')">🚪</div><div class="obj photo" onclick="corridor('403')">🚪</div><div class="obj mirror" onclick="corridor('404')">🚪</div><div class="obj window" onclick="corridor('hall')">🪟</div>
+</div><div id="corridorLog" class="log">走廊的灯每隔几秒闪一次。</div></div></section>
 
-<section id="final" class="page center"><div class="main"><div class="small">最终章</div><h2 id="endTitle"></h2><div id="endText" class="ending"></div><div id="endExtra" class="ending"></div><p id="endingCount" class="dim"></p><button onclick="location.reload()">重新开始</button></div></section>
+<section id="monitor" class="page center"><button class="backBtn" onclick="back()">← 返回</button><div class="main">
+<div class="small">第三章 · 监控录像</div><h2>安全监控</h2><p class="dim">选择一段录像。</p>
+<div class="actions"><button onclick="playTape(1)">CAM 01 · 走廊</button><button onclick="playTape(2)">CAM 02 · 客厅</button><button onclick="playTape(3)">CAM 03 · 镜子</button></div>
+<div id="camResult" class="story"></div></div></section>
+
+<section id="mirrorPage" class="page center"><button class="backBtn" onclick="back()">← 返回</button><div class="main">
+<div class="small">第四章 · 镜中人</div><div style="font-size:100px">🪞</div><div id="mirrorText" class="story">镜子里的你慢了一秒。</div>
+<div class="actions"><button onclick="mirror('look')">继续观察</button><button onclick="mirror('touch')">触碰镜面</button><button onclick="mirror('break')">打碎镜子</button></div></div></section>
+
+<section id="final" class="page center"><button class="backBtn" onclick="back()">← 返回</button><div class="main">
+<div class="small">最终章</div><h2 id="endTitle"></h2><div id="endText" class="story"></div><div id="endExtra" class="story"></div><p id="endingCount" class="dim"></p>
+<button onclick="location.reload()">重新开始</button></div></section>
+
+<div id="video">
+<div class="vhead"><span>◼ VHS ARCHIVE / SECURITY TAPE</span><span id="vCam">CAM-02</span></div>
+<div class="vscreen"><div class="scene"><div class="wall"></div><div class="floor"></div><div class="light"></div><div class="window"><div class="moon"></div></div><div class="table"></div><div class="lamp"><div class="lampglow"></div><div class="lampshade"></div></div><div class="oldphone">☎</div><div id="figure" class="figure"><div class="head"></div><div class="body"></div><i class="eye e1"></i><i class="eye e2"></i></div></div>
+<div class="scan"></div><div class="vignette"></div><div id="vtime" class="vtime">00:16:42</div><div class="vrec"><span class="blink">●</span> REC</div><div id="vtext" class="vtext"></div><div class="progress"><div id="bar" class="bar"></div></div></div>
+<div class="vcontrols"><button onclick="resumeTape()">▶ 播放</button><button onclick="pauseTape()">Ⅱ 暂停</button><button onclick="closeVideo()">← 返回监控</button></div>
+</div>
 </div>
 
 <script>
-const G={items:new Set(),flags:new Set(),endings:new Set(JSON.parse(localStorage.getItem('midnightEndings')||'[]'))};
+const S={items:new Set(),flags:new Set(),endings:new Set(JSON.parse(localStorage.getItem("midnightEndings")||"[]")),history:["title"]};
+let tapeTimer=null,tapeAt=0,tapePaused=false;
 const $=id=>document.getElementById(id);
-function page(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));$(id).classList.add('on')}
-function begin(){page('intro')}
-function inv(){let x=G.items.size?[...G.items].map(i=>'<span class="tag">'+i+'</span>').join(''):'无';$('inv').innerHTML='道具：'+x;if($('inv2'))$('inv2').innerHTML='道具：'+x}
-function glitch(){let s=$('static');s.classList.remove('on');void s.offsetWidth;s.classList.add('on')}
-function flash(){let f=$('flash');f.classList.remove('on');void f.offsetWidth;f.classList.add('on')}
-function log(t,acts=[]){$('log').innerHTML=t;$('actions').innerHTML='';acts.forEach(a=>{let b=document.createElement('button');b.textContent=a[0];b.onclick=a[1];$('actions').appendChild(b)})}
-function answer(){page('call');call1()}
-function hangup(){G.flags.add('hungup');page('house');log('你挂断了电话。<br><span class="red">三秒后，房门外响起了同样的铃声。</span>')}
-function mute(){G.flags.add('muted');page('house');log('你把手机调成静音。<br>屏幕自己亮了：<span class="red">“别出声。”</span>')}
-function call1(){$('callText').innerHTML='只有很轻的呼吸声。<br>对方终于说：<br><b>“你在家吗？”</b>';$('callActions').innerHTML='<button onclick="callAnswer(1)">回答“在”</button><button onclick="callAnswer(2)">问她是谁</button><button onclick="callAnswer(3)">保持沉默</button>'}
-function callAnswer(n){G.flags.add('call'+n);$('callText').innerHTML=n===1?'对方笑了。<br>“那你应该知道，我为什么在你门外。”':n===2?'“我是你七年前没接到的那通电话。”':'电话那头沉默。<br>随后传来三下敲门声：<span class="red">咚、咚、咚。</span>';$('callActions').innerHTML='<button onclick="afterCall()">挂断并调查房间</button>'}
-function afterCall(){page('house');log('电话挂断了。房间里多了一张你从没见过的照片。',[['调查照片',()=>inspect('photo')],['调查电视',()=>inspect('tv')],['调查镜子',()=>inspect('mirror')]])}
+function page(id){document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));$(id).classList.add("on")}
+function go(id){S.history.push(id);page(id)}
+function back(){if($("video").classList.contains("on")){closeVideo();return}if(S.history.length>1){S.history.pop();page(S.history[S.history.length-1])}}
+function startGame(){go("intro")}
+function updateInv(){let t=S.items.size?[...S.items].join("、"):"无";$("inv").textContent="道具："+t;$("inv2").textContent="道具："+t}
+function log(t,buttons=[]){$("log").innerHTML=t;$("actions").innerHTML="";buttons.forEach(x=>{let b=document.createElement("button");b.textContent=x[0];b.onclick=x[1];$("actions").appendChild(b)})}
+function answer(){go("call");$("callText").innerHTML="电话那头只有呼吸声。<br><br><b>“你在家吗？”</b>";$("callActions").innerHTML='<button onclick="callChoice(1)">回答“在”</button><button onclick="callChoice(2)">问她是谁</button><button onclick="callChoice(3)">保持沉默</button>'}
+function callChoice(n){S.flags.add("call"+n);$("callText").innerHTML=n===1?"对方笑了。<br>“那你应该知道，我为什么在你门外。”":n===2?"“我是你七年前没接到的那通电话。”":"电话那头沉默。<br>随后传来三下敲门声。";$("callActions").innerHTML='<button onclick="goHouse()">挂断并调查房间</button>'}
+function goHouse(){go("house");log("电话挂断了。房间里多了一张照片。",[["调查照片",()=>inspect("photo")],["调查电视",()=>inspect("tv")],["调查镜子",()=>inspect("mirror")]])}
+function hangup(){S.flags.add("hungup");go("house");log("你挂断电话。<br><span class=red>三秒后，门外响起同样的铃声。</span>")}
+function mute(){S.flags.add("muted");go("house");log("你把手机调成静音。<br>屏幕出现：<span class=red>“别出声。”</span>")}
 function inspect(x){
-if(x==='phone'){G.items.add('手机');inv();log('屏幕显示一个未知号码。再次看时，号码变成了：<span class="red">你的号码。</span>');return}
-if(x==='photo'){G.items.add('旧照片');inv();log('照片上有三个人。你的脸被黑色墨水涂掉了。背面写着：<span class="red">404</span>。',[['前往404',()=>{page('corridor')}]]);return}
-if(x==='tv'){G.items.add('录像带');inv();log('电视自动亮起。画面里是你的房间，但时间是七年前。',[['观看录像',()=>page('monitor')]]);return}
-if(x==='mirror'){log('你看向镜子。镜中的你没有同步眨眼。',[['继续看',()=>page('mirrorPage')]]) ;return}
-if(x==='door'){log('门外没人。猫眼里却能看见一个人站在走廊尽头。');return}
-if(['401','403','404','hall'].includes(x)){let t={401:'401号房打不开。门缝里塞着一张纸：不要去404。',403:'403号房传来电视声。可整栋楼已经断电。',404:'404号房门自己开了。里面只有一台正在播放你刚才电话内容的电视。',hall:'走廊尽头有一道影子。它在你眨眼时消失。'}[x];$('corridorLog').innerHTML=t;if(x==='404'){G.items.add('钥匙');inv();setTimeout(()=>page('monitor'),700)}}
+ if(x==="phone"){S.items.add("手机");updateInv();log("屏幕显示未知号码。再看时，号码变成了：<span class=red>你的号码。</span>");return}
+ if(x==="photo"){S.items.add("旧照片");updateInv();log("照片背面写着：<span class=red>404</span>。",[[ "前往404",()=>go("corridor") ]]);return}
+ if(x==="tv"){S.items.add("录像带");updateInv();log("电视亮起：ARCHIVE / 07-14 / 00:17。",[["▶ 播放录像",()=>playTape(2)],["返回",()=>{}]]);return}
+ if(x==="mirror"){log("镜中的你没有同步眨眼。",[["继续观察",()=>go("mirrorPage")]]);return}
+ if(x==="door"){log("猫眼里，走廊尽头站着一个人。你眨眼后，它消失了。");return}
 }
-function toHouse(){page('house')}
-function cam(n){glitch();$('camResult').innerHTML=n===1?'CAM 01：空走廊。没有异常。':n===2?'CAM 02：一个人站在镜头前。它没有脸。':'CAM 03：你看见自己正在看监控。';if(n===3){G.flags.add('camTruth');G.items.add('录像线索');inv()}}
-function mirrorAct(a){glitch();if(a==='look')$('mirrorText').innerHTML='镜中的你举起手。<br>你没有。<br><span class="red">它在对你微笑。</span>';if(a==='touch'){$('mirrorText').innerHTML='你的手穿过镜面。另一边有人抓住了你的手腕。';G.flags.add('mirrorTouch')}if(a==='break'){flash();G.items.add('碎镜片');inv();$('mirrorText').innerHTML='镜子碎了。碎片里同时出现七个不同的你。'}document.querySelector('#mirrorPage .actions').innerHTML='<button onclick="truth()">寻找真相</button>'}
-function truth(){let special=G.flags.has('camTruth')&&G.flags.has('mirrorTouch')&&G.items.has('旧照片');let t,x,e;if(special){t='真结局 · 第八通电话';x='你发现七年前的事故不是意外。那通电话一直没有结束。';e='电话再次响起。屏幕显示：第 8 个来电。你接听后，听见的是七年前的自己。'}else if(G.flags.has('hungup')){t='结局 · 不接听的人';x='你逃出了房间。';e='但手机在第二天凌晨再次响起。'}else if(G.flags.has('muted')){t='结局 · 静音';x='你遵守了“别出声”。';e='直到你发现，房间里其实还有另一个呼吸声。'}else if(G.flags.has('mirrorTouch')){t='结局 · 镜后';x='你触碰了镜子。';e='镜子里的你终于走了出来。'}else{t='结局 · 未知号码';x='你知道得太少了。';e='故事还没有真正结束。'}finish(t,x,e)}
-function finish(t,x,e){G.endings.add(t);localStorage.setItem('midnightEndings',JSON.stringify([...G.endings]));$('endTitle').textContent=t;$('endText').textContent=x;$('endExtra').textContent=e;$('endingCount').textContent='已发现结局：'+G.endings.size+' / 8';page('final');flash()}
-</script></body></html>
+function corridor(x){
+ const t={401:"401号房打不开。门缝里塞着纸条：不要去404。",403:"403号房传来电视声，可整栋楼已经断电。",404:"404号房门自己开了。里面只有一台电视。",hall:"走廊尽头的影子在向你招手。"}[x];
+ $("corridorLog").innerHTML=t;
+ if(x==="404"){S.items.add("钥匙");updateInv();setTimeout(()=>go("monitor"),700)}
+}
+function playTape(n){
+ $("video").classList.add("on");$("vCam").textContent="CAM-0"+n;
+ tapeAt=0;tapePaused=false;runTape(n);
+}
+function runTape(n){
+ clearInterval(tapeTimer);const start=Date.now()-tapeAt*1000;const fig=$("figure");fig.classList.remove("show");void fig.offsetWidth;
+ const events=n===1?[[0,"2007 / 07 / 14 · 00:16:42"],[4,"走廊没有人。"],[9,"门外传来脚步声。"],[15,"404号门自己打开。"],[22,"不要回头。"],[28,"录像信号中断。"]]:
+ n===2?[[0,"2007 / 07 / 14 · 00:16:42"],[4,"客厅无人。"],[9,"电话响了。"],[14,"手机自己亮起。"],[18,"门正在慢慢打开。"],[22,"窗边出现异常。"],[25,"她已经站在那里。"],[29,"她正在看着镜头。"],[32,"录像信号中断。"]]:
+ [[0,"CAM-03 · 镜面测试"],[5,"镜子正常。"],[10,"镜中人延迟 1 秒。"],[16,"延迟增加。"],[21,"镜中人没有眨眼。"],[26,"它正在靠近镜面。"],[31,"它伸出了手。"],[34,"录像信号中断。"]];
+ const total=36;let last=-1;
+ fig.style.opacity="0";
+ tapeTimer=setInterval(()=>{
+  const sec=Math.min(total,Math.floor((Date.now()-start)/1000));tapeAt=sec;
+  $("vtime").textContent="00:"+String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");
+  $("bar").style.width=(sec/total*100)+"%";
+  let idx=-1;for(let i=0;i<events.length;i++)if(sec>=events[i][0])idx=i;
+  if(idx!==last){last=idx;$("vtext").textContent=events[idx][1];$("vtext").className="vtext";void $("vtext").offsetWidth;$("vtext").className="vtext show";
+   if(sec>=22){fig.classList.add("show")}
+   if(sec===9||sec===18||sec===25){$("static").classList.remove("on");void $("static").offsetWidth;$("static").classList.add("on")}
+  }
+  if(sec>=total)pauseTape();
+ },200)
+}
+function resumeTape(){tapePaused=false;runTape($("vCam").textContent.slice(-1))}
+function pauseTape(){clearInterval(tapeTimer);tapePaused=true;$("vtext").textContent="— 录像暂停 —";$("vtext").className="vtext show"}
+function closeVideo(){clearInterval(tapeTimer);$("video").classList.remove("on");$("bar").style.width="0";$("figure").className="figure"}
+function mirror(a){if(a==="look")$("mirrorText").innerHTML="镜中的你举起手。<br>你没有。<br><span class=red>它在对你微笑。</span>";if(a==="touch"){S.flags.add("mirrorTouch");$("mirrorText").innerHTML="你的手穿过镜面。另一边有人抓住你的手腕。"}if(a==="break"){S.items.add("碎镜片");updateInv();$("mirrorText").innerHTML="镜子碎了。碎片里出现七个不同的你。"}$("mirrorPage").querySelector(".actions").innerHTML='<button onclick="finish()">寻找真相</button>'}
+function finish(){let t,x,e;if(S.flags.has("mirrorTouch")&&S.items.has("旧照片")){t="真结局 · 第八通电话";x="七年前的事故不是意外。";e="电话再次响起。第 8 个来电，来自七年前的你。"}else if(S.flags.has("hungup")){t="结局 · 不接听的人";x="你逃出了房间。";e="第二天凌晨，手机再次响起。"}else if(S.flags.has("muted")){t="结局 · 静音";x="你遵守了“别出声”。";e="直到你发现房间里还有第二个呼吸声。"}else if(S.flags.has("mirrorTouch")){t="结局 · 镜后";x="你触碰了镜子。";e="镜子里的你走了出来。"}else{t="结局 · 未知号码";x="你知道得太少了。";e="故事还没有真正结束。"}S.endings.add(t);localStorage.setItem("midnightEndings",JSON.stringify([...S.endings]));$("endTitle").textContent=t;$("endText").textContent=x;$("endExtra").textContent=e;$("endingCount").textContent="已发现结局："+S.endings.size+" / 8";go("final")}
+function showGallery(){alert("已发现结局："+S.endings.size+" / 8\\n\\n"+([...S.endings].join("\\n")||"还没有发现结局。"))}
+</script>
+</body></html>
